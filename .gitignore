@@ -1,3 +1,13 @@
+pretest/
 node_modules/
+bower_components/
+test/unit/coverage
+coverage/
+build/
+dist/
 *~
 */*~
+*/*.log
+.settings
+.project
+.tern-project
