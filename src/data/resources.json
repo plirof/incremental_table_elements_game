@@ -1,0 +1,65 @@
+{
+  "e-": {
+    "elements": {},
+    "energy": 511000,
+    "anti_particle": "e+",
+    "html": "e<sup>-</sup>",
+    "type": [
+      "subatomic"
+    ]
+  },
+  "e+": {
+    "elements": {},
+    "energy": 511000,
+    "anti_particle": "e-",
+    "html": "e<sup>+</sup>",
+    "type": [
+      "subatomic"
+    ]
+  },
+  "n": {
+    "elements": {},
+    "energy": 939565413,
+    "decay": {
+      "half_life": 881,
+      "decay_types": {
+        "beta-": {
+          "ratio": 1,
+          "reaction": {
+            "reactant": {
+              "n": 1
+            },
+            "product": {
+              "p": 1,
+              "e-": 1,
+              "eV": 782343
+            }
+          }
+        }
+      }
+    },
+    "type": [
+      "subatomic"
+    ]
+  },
+  "p": {
+    "elements": {},
+    "energy": 938272081,
+    "type": [
+      "subatomic"
+    ]
+  },
+  "eV": {
+    "elements": {},
+    "type": [
+      "energy"
+    ]
+  },
+  "dark_matter": {
+    "elements": {},
+    "html": "&#8709;",
+    "type": [
+      "dark"
+    ]
+  }
+}
