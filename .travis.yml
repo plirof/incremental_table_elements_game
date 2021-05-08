@@ -2,19 +2,34 @@ language: node_js
 dist: trusty
 node_js:
   - node
-env:
-  - TEST_SUITE=unit-test
-  - TEST_SUITE=e2e-test
-addons:
-  firefox: latest
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-install:
-  - npm install
-script: "gulp $TEST_SUITE"
+jobs:
+  include:
+    - stage: test
+      env:
+        - TEST_SUITE=unit_test
+        # Commenting out e2e tests: https://github.com/angular/webdriver-manager/issues/270
+        # - TEST_SUITE=e2e_test
+      addons:
+        firefox: latest
+        apt:
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
+      before_install:
+        - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+      install:
+        - npm install
+      script: "gulp $TEST_SUITE"
+      before_deploy:
+        - export NOW=`date '+%d.%m.%Y %H:%M:%S'`
+        - sed -i -e 's/{{ \x27GAME_NAME\x27 | translate }} v{{ct.data.version}}/NG '"$NOW"'/g' build/views/sidebar.html
+        - sed -i -e 's/<b>Warning:<\/b>.*/<b>Warning:<\/b> This is a dev version with unreleased changes. Expect bugs, broken features and unbalance. Use at your own risk./g' build/index.html
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        local_dir: build
+        repo: angarg12/nucleogenesis-dev
+        github_token: $GITHUB_TOKEN

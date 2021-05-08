@@ -1,1242 +1,1170 @@
 {
-  "1-1": {
-    "price": 100,
-    "name": "I boost 1",
-    "description": "Tier I production x2",
-    "tiers": [
-      "1"
-    ],
+  "multiplier-1": {
+    "prices": {
+      "1": [
+        100,
+        1000,
+        10000,
+        100000,
+        1000000
+      ],
+      "2": [
+        1000,
+        10000,
+        100000,
+        1000000,
+        10000000
+      ],
+      "3": [
+        10000,
+        100000,
+        1000000,
+        10000000,
+        100000000
+      ],
+      "4": [
+        100000,
+        1000000,
+        10000000,
+        100000000,
+        1000000000
+      ],
+      "5": [
+        1000000,
+        10000000,
+        100000000,
+        1000000000,
+        10000000000
+      ],
+      "6": [
+        10000000,
+        100000000,
+        1000000000,
+        10000000000,
+        100000000000
+      ],
+      "7": [
+        100000000,
+        1000000000,
+        10000000000,
+        100000000000,
+        1000000000000
+      ],
+      "8": [
+        1000000000,
+        10000000000,
+        100000000000,
+        1000000000000,
+        10000000000000
+      ],
+      "9": [
+        10000000000,
+        100000000000,
+        1000000000000,
+        10000000000000,
+        100000000000000
+      ],
+      "10": [
+        100000000000,
+        1000000000000,
+        10000000000000,
+        100000000000000,
+        1000000000000000
+      ]
+    },
+    "name": "<%= name %> multiplier 1",
+    "description": "Tier <%= name %> production x2",
+    "tier": "<%= id %>",
     "deps": [],
     "exotic_deps": [],
     "dark_deps": [],
-    "power": 2
-  },
-  "1-2": {
-    "price": 500,
-    "name": "I boost 2",
-    "description": "Tier I production x3",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=2;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-2": {
+    "prices": {
+      "1": [
+        10000000,
+        150000000,
+        2250000000,
+        33800000000,
+        506000000000
+      ],
+      "2": [
+        100000000,
+        1500000000,
+        22500000000,
+        338000000000,
+        5060000000000
+      ],
+      "3": [
+        1000000000,
+        15000000000,
+        225000000000,
+        3380000000000,
+        50600000000000
+      ],
+      "4": [
+        10000000000,
+        150000000000,
+        2250000000000,
+        33800000000000,
+        506000000000000
+      ],
+      "5": [
+        100000000000,
+        1500000000000,
+        22500000000000,
+        338000000000000,
+        5060000000000000
+      ],
+      "6": [
+        1000000000000,
+        15000000000000,
+        225000000000000,
+        3380000000000000,
+        50600000000000000
+      ],
+      "7": [
+        10000000000000,
+        150000000000000,
+        2250000000000000,
+        33800000000000000,
+        506000000000000000
+      ],
+      "8": [
+        100000000000000,
+        1500000000000000,
+        22500000000000000,
+        338000000000000000,
+        5060000000000000000
+      ],
+      "9": [
+        1000000000000000,
+        15000000000000000,
+        225000000000000000,
+        3380000000000000000,
+        50600000000000000000
+      ],
+      "10": [
+        10000000000000000,
+        150000000000000000,
+        2250000000000000000,
+        33800000000000000000,
+        506000000000000000000
+      ]
+    },
+    "name": "<%= name %> multiplier 2",
+    "description": "Tier <%= name %> production x3",
+    "tier": "<%= id %>",
     "deps": [
-      "1-1"
+      "multiplier-1-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x3"
+      "x-3"
     ],
     "dark_deps": [],
-    "power": 3
-  },
-  "1-3": {
-    "price": 10000,
-    "name": "I boost 3",
-    "description": "Tier I production x4",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=3;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-3": {
+    "prices": {
+      "1": [
+        7590000000000,
+        101000000000000,
+        1350000000000000,
+        18000000000000000,
+        240000000000000000
+      ],
+      "2": [
+        75900000000000,
+        1010000000000000,
+        13500000000000000,
+        180000000000000000,
+        2400000000000000000
+      ],
+      "3": [
+        759000000000000,
+        10100000000000000,
+        135000000000000000,
+        1800000000000000000,
+        24000000000000000000
+      ],
+      "4": [
+        7590000000000000,
+        101000000000000000,
+        1350000000000000000,
+        18000000000000000000,
+        240000000000000000000
+      ],
+      "5": [
+        75900000000000000,
+        1010000000000000000,
+        13500000000000000000,
+        180000000000000000000,
+        2.4e+21
+      ],
+      "6": [
+        759000000000000000,
+        10100000000000000000,
+        135000000000000000000,
+        1.8e+21,
+        2.4e+22
+      ],
+      "7": [
+        7590000000000000000,
+        101000000000000000000,
+        1.35e+21,
+        1.8e+22,
+        2.4e+23
+      ],
+      "8": [
+        75900000000000000000,
+        1.01e+21,
+        1.35e+22,
+        1.8e+23,
+        2.4e+24
+      ],
+      "9": [
+        759000000000000000000,
+        1.01e+22,
+        1.35e+23,
+        1.8e+24,
+        2.4e+25
+      ],
+      "10": [
+        7.59e+21,
+        1.01e+23,
+        1.35e+24,
+        1.8e+25,
+        2.4e+26
+      ]
+    },
+    "name": "<%= name %> multiplier 3",
+    "description": "Tier <%= name %> production x4",
+    "tier": "<%= id %>",
     "deps": [
-      "1-2"
+      "multiplier-2-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x4"
+      "x-4"
     ],
     "dark_deps": [],
-    "power": 4
-  },
-  "1-4": {
-    "price": 100000,
-    "name": "I boost 4",
-    "description": "Tier I production x5",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=4;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-4": {
+    "prices": {
+      "1": [
+        3200000000000000000,
+        40000000000000000000,
+        500000000000000000000,
+        6.25e+21,
+        7.81e+22
+      ],
+      "2": [
+        32000000000000000000,
+        400000000000000000000,
+        5e+21,
+        6.25e+22,
+        7.81e+23
+      ],
+      "3": [
+        320000000000000000000,
+        4e+21,
+        5e+22,
+        6.25e+23,
+        7.81e+24
+      ],
+      "4": [
+        3.2e+21,
+        4e+22,
+        5e+23,
+        6.25e+24,
+        7.81e+25
+      ],
+      "5": [
+        3.2e+22,
+        4e+23,
+        5e+24,
+        6.25e+25,
+        7.81e+26
+      ],
+      "6": [
+        3.2e+23,
+        4e+24,
+        5e+25,
+        6.25e+26,
+        7.81e+27
+      ],
+      "7": [
+        3.2e+24,
+        4e+25,
+        5e+26,
+        6.25e+27,
+        7.81e+28
+      ],
+      "8": [
+        3.2e+25,
+        4e+26,
+        5e+27,
+        6.25e+28,
+        7.81e+29
+      ],
+      "9": [
+        3.2e+26,
+        4e+27,
+        5e+28,
+        6.25e+29,
+        7.81e+30
+      ],
+      "10": [
+        3.2e+27,
+        4e+28,
+        5e+29,
+        6.25e+30,
+        7.81e+31
+      ]
+    },
+    "name": "<%= name %> multiplier 4",
+    "description": "Tier <%= name %> production x5",
+    "tier": "<%= id %>",
     "deps": [
-      "1-3"
+      "multiplier-3-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x5"
+      "x-5"
     ],
     "dark_deps": [],
-    "power": 5
-  },
-  "1-5": {
-    "price": 10000000,
-    "name": "I boost 5",
-    "description": "Tier I production x6",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=5;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-5": {
+    "prices": {
+      "1": [
+        9.77e+23,
+        1.17e+25,
+        1.41e+26,
+        1.69e+27,
+        2.03e+28
+      ],
+      "2": [
+        9.77e+24,
+        1.17e+26,
+        1.41e+27,
+        1.69e+28,
+        2.03e+29
+      ],
+      "3": [
+        9.77e+25,
+        1.17e+27,
+        1.41e+28,
+        1.69e+29,
+        2.02e+30
+      ],
+      "4": [
+        9.77e+26,
+        1.17e+28,
+        1.41e+29,
+        1.69e+30,
+        2.03e+31
+      ],
+      "5": [
+        9.77e+27,
+        1.17e+29,
+        1.41e+30,
+        1.69e+31,
+        2.02e+32
+      ],
+      "6": [
+        9.77e+28,
+        1.17e+30,
+        1.41e+31,
+        1.69e+32,
+        2.03e+33
+      ],
+      "7": [
+        9.77e+29,
+        1.17e+31,
+        1.41e+32,
+        1.69e+33,
+        2.03e+34
+      ],
+      "8": [
+        9.77e+30,
+        1.17e+32,
+        1.41e+33,
+        1.69e+34,
+        2.02e+35
+      ],
+      "9": [
+        9.77e+31,
+        1.17e+33,
+        1.41e+34,
+        1.69e+35,
+        2.03e+36
+      ],
+      "10": [
+        9.77e+32,
+        1.17e+34,
+        1.41e+35,
+        1.69e+36,
+        2.02e+37
+      ]
+    },
+    "name": "<%= name %> multiplier 5",
+    "description": "Tier <%= name %> production x6",
+    "tier": "<%= id %>",
     "deps": [
-      "1-4"
+      "multiplier-4-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x6"
+      "x-6"
     ],
     "dark_deps": [],
-    "power": 6
-  },
-  "1-6": {
-    "price": 100000000,
-    "name": "I boost 6",
-    "description": "Tier I production x7",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=6;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-6": {
+    "prices": {
+      "1": [
+        2.43e+29,
+        2.84e+30,
+        3.31e+31,
+        3.86e+32,
+        4.5e+33
+      ],
+      "2": [
+        2.43e+30,
+        2.84e+31,
+        3.31e+32,
+        3.86e+33,
+        4.5e+34
+      ],
+      "3": [
+        2.43e+31,
+        2.83e+32,
+        3.31e+33,
+        3.86e+34,
+        4.5e+35
+      ],
+      "4": [
+        2.43e+32,
+        2.84e+33,
+        3.31e+34,
+        3.86e+35,
+        4.5e+36
+      ],
+      "5": [
+        2.43e+33,
+        2.83e+34,
+        3.31e+35,
+        3.86e+36,
+        4.5e+37
+      ],
+      "6": [
+        2.43e+34,
+        2.84e+35,
+        3.31e+36,
+        3.86e+37,
+        4.5e+38
+      ],
+      "7": [
+        2.43e+35,
+        2.84e+36,
+        3.31e+37,
+        3.86e+38,
+        4.5e+39
+      ],
+      "8": [
+        2.43e+36,
+        2.83e+37,
+        3.31e+38,
+        3.86e+39,
+        4.5e+40
+      ],
+      "9": [
+        2.43e+37,
+        2.83e+38,
+        3.31e+39,
+        3.86e+40,
+        4.5e+41
+      ],
+      "10": [
+        2.43e+38,
+        2.83e+39,
+        3.31e+40,
+        3.86e+41,
+        4.5e+42
+      ]
+    },
+    "name": "<%= name %> multiplier 6",
+    "description": "Tier <%= name %> production x7",
+    "tier": "<%= id %>",
     "deps": [
-      "1-5"
+      "multiplier-5-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x7"
+      "x-7"
     ],
     "dark_deps": [],
-    "power": 7
-  },
-  "1-7": {
-    "price": 1000000000,
-    "name": "I boost 7",
-    "description": "Tier I production x8",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=7;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-7": {
+    "prices": {
+      "1": [
+        5.25e+34,
+        6e+35,
+        6.86e+36,
+        7.84e+37,
+        8.96e+38
+      ],
+      "2": [
+        5.25e+35,
+        6e+36,
+        6.86e+37,
+        7.84e+38,
+        8.96e+39
+      ],
+      "3": [
+        5.25e+36,
+        6e+37,
+        6.86e+38,
+        7.84e+39,
+        8.96e+40
+      ],
+      "4": [
+        5.25e+37,
+        6e+38,
+        6.86e+39,
+        7.84e+40,
+        8.96e+41
+      ],
+      "5": [
+        5.25e+38,
+        6e+39,
+        6.86e+40,
+        7.84e+41,
+        8.96e+42
+      ],
+      "6": [
+        5.25e+39,
+        6e+40,
+        6.86e+41,
+        7.84e+42,
+        8.96e+43
+      ],
+      "7": [
+        5.25e+40,
+        6e+41,
+        6.86e+42,
+        7.84e+43,
+        8.96e+44
+      ],
+      "8": [
+        5.25e+41,
+        6e+42,
+        6.86e+43,
+        7.84e+44,
+        8.96e+45
+      ],
+      "9": [
+        5.25e+42,
+        6e+43,
+        6.86e+44,
+        7.84e+45,
+        8.96e+46
+      ],
+      "10": [
+        5.25e+43,
+        6e+44,
+        6.86e+45,
+        7.84e+46,
+        8.96e+47
+      ]
+    },
+    "name": "<%= name %> multiplier 7",
+    "description": "Tier <%= name %> production x8",
+    "tier": "<%= id %>",
     "deps": [
-      "1-6"
+      "multiplier-6-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x8"
+      "x-8"
     ],
     "dark_deps": [],
-    "power": 8
-  },
-  "1-8": {
-    "price": 10000000000,
-    "name": "I boost 8",
-    "description": "Tier I production x9",
-    "tiers": [
-      "1"
+    "function": [
+      "(() => {",
+      "args.production*=8;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "multiplier-8": {
+    "prices": {
+      "1": [
+        1.02e+40,
+        1.15e+41,
+        1.3e+42,
+        1.46e+43,
+        1.64e+44
+      ],
+      "2": [
+        1.02e+41,
+        1.15e+42,
+        1.3e+43,
+        1.46e+44,
+        1.64e+45
+      ],
+      "3": [
+        1.02e+42,
+        1.15e+43,
+        1.3e+44,
+        1.46e+45,
+        1.64e+46
+      ],
+      "4": [
+        1.02e+43,
+        1.15e+44,
+        1.3e+45,
+        1.46e+46,
+        1.64e+47
+      ],
+      "5": [
+        1.02e+44,
+        1.15e+45,
+        1.3e+46,
+        1.46e+47,
+        1.64e+48
+      ],
+      "6": [
+        1.02e+45,
+        1.15e+46,
+        1.3e+47,
+        1.46e+48,
+        1.64e+49
+      ],
+      "7": [
+        1.02e+46,
+        1.15e+47,
+        1.3e+48,
+        1.46e+49,
+        1.64e+50
+      ],
+      "8": [
+        1.02e+47,
+        1.15e+48,
+        1.3e+49,
+        1.46e+50,
+        1.64e+51
+      ],
+      "9": [
+        1.02e+48,
+        1.15e+49,
+        1.3e+50,
+        1.46e+51,
+        1.64e+52
+      ],
+      "10": [
+        1.02e+49,
+        1.15e+50,
+        1.3e+51,
+        1.46e+52,
+        1.64e+53
+      ]
+    },
+    "name": "<%= name %> multiplier 8",
+    "description": "Tier <%= name %> production x9",
+    "tier": "<%= id %>",
     "deps": [
-      "1-7"
+      "multiplier-7-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x9"
+      "x-9"
     ],
     "dark_deps": [],
-    "power": 9
-  },
-  "2-1": {
-    "price": 1000,
-    "name": "II boost 1",
-    "description": "Tier II production x2",
-    "tiers": [
-      "2"
+    "function": [
+      "(() => {",
+      "args.production*=9;",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "boost-1": {
+    "prices": {
+      "1": 100,
+      "2": 5000,
+      "3": 55000,
+      "4": 600000,
+      "5": 6500000,
+      "6": 70000000,
+      "7": 100000000,
+      "8": 1650000000,
+      "9": 25500000000,
+      "10": 375000000000
+    },
+    "name": "<%= name %> boost 1",
+    "description": "Tier <%= name %> +5% production for every 10 generators",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "2-2": {
-    "price": 5000,
-    "name": "II boost 2",
-    "description": "Tier II production x3",
-    "tiers": [
-      "2"
+    "exotic_deps": [
+      "boosts-1"
     ],
+    "dark_deps": [],
+    "function": [
+      "(() => {",
+      "args.production*=(1+Math.floor(args.slot.generators['<%= id %>']/10)*0.05);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
+  },
+  "boost-2": {
+    "prices": {
+      "1": 500,
+      "2": 25000,
+      "3": 275000,
+      "4": 3000000,
+      "5": 32500000,
+      "6": 350000000,
+      "7": 500000000,
+      "8": 8250000000,
+      "9": 127500000000,
+      "10": 1875000000000
+    },
+    "name": "<%= name %> boost 2",
+    "description": "Tier <%= name %> +25% production for every 25 generators",
+    "tier": "<%= id %>",
     "deps": [
-      "2-1"
+      "boost-1-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x3"
+      "boosts-2"
     ],
     "dark_deps": [],
-    "power": 3
-  },
-  "2-3": {
-    "price": 50000,
-    "name": "II boost 3",
-    "description": "Tier II production x4",
-    "tiers": [
-      "2"
+    "function": [
+      "(() => {",
+      "args.production*=(1+Math.floor(args.slot.generators['<%= id %>']/25)*0.25);",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "boost-3": {
+    "prices": {
+      "1": 10000,
+      "2": 500000,
+      "3": 5500000,
+      "4": 60000000,
+      "5": 650000000,
+      "6": 7000000000,
+      "7": 10000000000,
+      "8": 165000000000,
+      "9": 2550000000000,
+      "10": 37500000000000
+    },
+    "name": "<%= name %> boost 3",
+    "description": "Tier <%= name %> +100% production for every 50 generators",
+    "tier": "<%= id %>",
     "deps": [
-      "2-2"
+      "boost-2-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x4"
+      "boosts-3"
     ],
     "dark_deps": [],
-    "power": 4
-  },
-  "2-4": {
-    "price": 5000000,
-    "name": "II boost 4",
-    "description": "Tier II production x5",
-    "tiers": [
-      "2"
+    "function": [
+      "(() => {",
+      "args.production*=(1+Math.floor(args.slot.generators['<%= id %>']/50)*1);",
+      "})()"
     ],
+    "tags": [
+      "production"
+    ]
+  },
+  "boost-4": {
+    "prices": {
+      "1": 100000,
+      "2": 5000000,
+      "3": 55000000,
+      "4": 600000000,
+      "5": 6500000000,
+      "6": 70000000000,
+      "7": 100000000000,
+      "8": 1650000000000,
+      "9": 25500000000000,
+      "10": 375000000000000
+    },
+    "name": "<%= name %> boost 4",
+    "description": "Tier <%= name %> +250% production for every 100 generators",
+    "tier": "<%= id %>",
     "deps": [
-      "2-3"
+      "boost-3-<%= id %>-0"
     ],
     "exotic_deps": [
-      "x5"
+      "boosts-4"
     ],
     "dark_deps": [],
-    "power": 5
+    "function": [
+      "(() => {",
+      "args.production*=(1+Math.floor(args.slot.generators['<%= id %>']/100)*2.5);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "2-5": {
-    "price": 500000000,
-    "name": "II boost 5",
-    "description": "Tier II production x6",
-    "tiers": [
-      "2"
-    ],
-    "deps": [
-      "2-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "2-6": {
-    "price": 50000000000,
-    "name": "II boost 6",
-    "description": "Tier II production x7",
-    "tiers": [
-      "2"
-    ],
-    "deps": [
-      "2-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "2-7": {
-    "price": 50000000000000,
-    "name": "II boost 7",
-    "description": "Tier II production x8",
-    "tiers": [
-      "2"
-    ],
-    "deps": [
-      "2-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "2-8": {
-    "price": 50000000000000000,
-    "name": "II boost 8",
-    "description": "Tier II production x9",
-    "tiers": [
-      "2"
-    ],
-    "deps": [
-      "2-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "3-1": {
-    "price": 10000,
-    "name": "III boost 1",
-    "description": "Tier III production x2",
-    "tiers": [
-      "3"
-    ],
+  "synergies-1": {
+    "prices": {
+      "1": 100,
+      "2": 10000,
+      "3": 1000000,
+      "4": 100000000,
+      "5": 10000000000,
+      "6": 1000000000000,
+      "7": 100000000000000,
+      "8": 10000000000000000,
+      "9": 1000000000000000000,
+      "10": 10000000000000000000
+    },
+    "name": "<%= name %> synergy I",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier I generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "3-2": {
-    "price": 55000,
-    "name": "III boost 2",
-    "description": "Tier III production x3",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-1",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['1']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "3-3": {
-    "price": 550000,
-    "name": "III boost 3",
-    "description": "Tier III production x4",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "3-4": {
-    "price": 55000000,
-    "name": "III boost 4",
-    "description": "Tier III production x5",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "3-5": {
-    "price": 5500000000,
-    "name": "III boost 5",
-    "description": "Tier III production x6",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "3-6": {
-    "price": 550000000000,
-    "name": "III boost 6",
-    "description": "Tier III production x7",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "3-7": {
-    "price": 550000000000000,
-    "name": "III boost 7",
-    "description": "Tier III production x8",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "3-8": {
-    "price": 550000000000000000,
-    "name": "III boost 8",
-    "description": "Tier III production x9",
-    "tiers": [
-      "3"
-    ],
-    "deps": [
-      "3-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "4-1": {
-    "price": 120000,
-    "name": "IV boost 1",
-    "description": "Tier IV production x2",
-    "tiers": [
-      "4"
-    ],
+  "synergies-2": {
+    "prices": {
+      "1": 80,
+      "2": 8000,
+      "3": 800000,
+      "4": 80000000,
+      "5": 8000000000,
+      "6": 800000000000,
+      "7": 80000000000000,
+      "8": 8000000000000000,
+      "9": 800000000000000000,
+      "10": 8000000000000000000
+    },
+    "name": "<%= name %> synergy II",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier II generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "4-2": {
-    "price": 600000,
-    "name": "IV boost 2",
-    "description": "Tier IV production x3",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-2",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['2']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "4-3": {
-    "price": 6000000,
-    "name": "IV boost 3",
-    "description": "Tier IV production x4",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "4-4": {
-    "price": 600000000,
-    "name": "IV boost 4",
-    "description": "Tier IV production x5",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "4-5": {
-    "price": 60000000000,
-    "name": "IV boost 5",
-    "description": "Tier IV production x6",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "4-6": {
-    "price": 6000000000000,
-    "name": "IV boost 6",
-    "description": "Tier IV production x7",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "4-7": {
-    "price": 6000000000000000,
-    "name": "IV boost 7",
-    "description": "Tier IV production x8",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "4-8": {
-    "price": 6000000000000000000,
-    "name": "IV boost 8",
-    "description": "Tier IV production x9",
-    "tiers": [
-      "4"
-    ],
-    "deps": [
-      "4-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "5-1": {
-    "price": 1300000,
-    "name": "V boost 1",
-    "description": "Tier V production x2",
-    "tiers": [
-      "5"
-    ],
+  "synergies-3": {
+    "prices": {
+      "1": 50,
+      "2": 5000,
+      "3": 500000,
+      "4": 50000000,
+      "5": 5000000000,
+      "6": 500000000000,
+      "7": 50000000000000,
+      "8": 5000000000000000,
+      "9": 500000000000000000,
+      "10": 5000000000000000000
+    },
+    "name": "<%= name %> synergy III",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier III generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "5-2": {
-    "price": 6500000,
-    "name": "V boost 2",
-    "description": "Tier V production x3",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-3",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['3']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "5-3": {
-    "price": 65000000,
-    "name": "V boost 3",
-    "description": "Tier V production x4",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "5-4": {
-    "price": 6500000000,
-    "name": "V boost 4",
-    "description": "Tier V production x5",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "5-5": {
-    "price": 650000000000,
-    "name": "V boost 5",
-    "description": "Tier V production x6",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "5-6": {
-    "price": 65000000000000,
-    "name": "V boost 6",
-    "description": "Tier V production x7",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "5-7": {
-    "price": 65000000000000000,
-    "name": "V boost 7",
-    "description": "Tier V production x8",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "5-8": {
-    "price": 65000000000000000000,
-    "name": "V boost 8",
-    "description": "Tier V production x9",
-    "tiers": [
-      "5"
-    ],
-    "deps": [
-      "5-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "6-1": {
-    "price": 14000000,
-    "name": "VI boost 1",
-    "description": "Tier VI production x2",
-    "tiers": [
-      "6"
-    ],
+  "synergies-4": {
+    "prices": {
+      "1": 20,
+      "2": 2000,
+      "3": 200000,
+      "4": 20000000,
+      "5": 2000000000,
+      "6": 200000000000,
+      "7": 20000000000000,
+      "8": 2000000000000000,
+      "9": 200000000000000000,
+      "10": 2000000000000000000
+    },
+    "name": "<%= name %> synergy IV",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier IV generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "6-2": {
-    "price": 70000000,
-    "name": "VI boost 2",
-    "description": "Tier VI production x3",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-4",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['4']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "6-3": {
-    "price": 700000000,
-    "name": "VI boost 3",
-    "description": "Tier VI production x4",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "6-4": {
-    "price": 70000000000,
-    "name": "VI boost 4",
-    "description": "Tier VI production x5",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "6-5": {
-    "price": 7000000000000,
-    "name": "VI boost 5",
-    "description": "Tier VI production x6",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "6-6": {
-    "price": 700000000000000,
-    "name": "VI boost 6",
-    "description": "Tier VI production x7",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "6-7": {
-    "price": 700000000000000000,
-    "name": "VI boost 7",
-    "description": "Tier VI production x8",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "6-8": {
-    "price": 700000000000000000000,
-    "name": "VI boost 8",
-    "description": "Tier VI production x9",
-    "tiers": [
-      "6"
-    ],
-    "deps": [
-      "6-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "7-1": {
-    "price": 200000000,
-    "name": "VII boost 1",
-    "description": "Tier VII production x2",
-    "tiers": [
-      "7"
-    ],
+  "synergies-5": {
+    "prices": {
+      "1": 10,
+      "2": 1000,
+      "3": 100000,
+      "4": 10000000,
+      "5": 1000000000,
+      "6": 100000000000,
+      "7": 10000000000000,
+      "8": 1000000000000000,
+      "9": 100000000000000000,
+      "10": 1000000000000000000
+    },
+    "name": "<%= name %> synergy V",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier V generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "7-2": {
-    "price": 1000000000,
-    "name": "VII boost 2",
-    "description": "Tier VII production x3",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-5",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['5']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "7-3": {
-    "price": 10000000000,
-    "name": "VII boost 3",
-    "description": "Tier VII production x4",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "7-4": {
-    "price": 1000000000000,
-    "name": "VII boost 4",
-    "description": "Tier VII production x5",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "7-5": {
-    "price": 100000000000000,
-    "name": "VII boost 5",
-    "description": "Tier VII production x6",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "7-6": {
-    "price": 10000000000000000,
-    "name": "VII boost 6",
-    "description": "Tier VII production x7",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "7-7": {
-    "price": 10000000000000000000,
-    "name": "VII boost 7",
-    "description": "Tier VII production x8",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "7-8": {
-    "price": 1e+22,
-    "name": "VII boost 8",
-    "description": "Tier VII production x9",
-    "tiers": [
-      "7"
-    ],
-    "deps": [
-      "7-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "8-1": {
-    "price": 3300000000,
-    "name": "VIII boost 1",
-    "description": "Tier VIII production x2",
-    "tiers": [
-      "8"
-    ],
+  "synergies-6": {
+    "prices": {
+      "1": 5,
+      "2": 500,
+      "3": 50000,
+      "4": 5000000,
+      "5": 500000000,
+      "6": 50000000000,
+      "7": 5000000000000,
+      "8": 500000000000000,
+      "9": 50000000000000000,
+      "10": 500000000000000000
+    },
+    "name": "<%= name %> synergy VI",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier VI generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "8-2": {
-    "price": 16500000000,
-    "name": "VIII boost 2",
-    "description": "Tier VIII production x3",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-6",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['6']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "8-3": {
-    "price": 165000000000,
-    "name": "VIII boost 3",
-    "description": "Tier VIII production x4",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "8-4": {
-    "price": 16500000000000,
-    "name": "VIII boost 4",
-    "description": "Tier VIII production x5",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "8-5": {
-    "price": 1650000000000000,
-    "name": "VIII boost 5",
-    "description": "Tier VIII production x6",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "8-6": {
-    "price": 165000000000000000,
-    "name": "VIII boost 6",
-    "description": "Tier VIII production x7",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "8-7": {
-    "price": 165000000000000000000,
-    "name": "VIII boost 7",
-    "description": "Tier VIII production x8",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "8-8": {
-    "price": 1.65e+23,
-    "name": "VIII boost 8",
-    "description": "Tier VIII production x9",
-    "tiers": [
-      "8"
-    ],
-    "deps": [
-      "8-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "9-1": {
-    "price": 51000000000,
-    "name": "IX boost 1",
-    "description": "Tier IX production x2",
-    "tiers": [
-      "9"
-    ],
+  "synergies-7": {
+    "prices": {
+      "1": 5,
+      "2": 250,
+      "3": 25000,
+      "4": 2500000,
+      "5": 250000000,
+      "6": 25000000000,
+      "7": 2500000000000,
+      "8": 250000000000000,
+      "9": 25000000000000000,
+      "10": 250000000000000000
+    },
+    "name": "<%= name %> synergy VII",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier VII generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "9-2": {
-    "price": 255000000000,
-    "name": "IX boost 2",
-    "description": "Tier IX production x3",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-7",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['7']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "9-3": {
-    "price": 2550000000000,
-    "name": "IX boost 3",
-    "description": "Tier IX production x4",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-2"
-    ],
-    "exotic_deps": [
-      "x4"
-    ],
-    "dark_deps": [],
-    "power": 4
-  },
-  "9-4": {
-    "price": 255000000000000,
-    "name": "IX boost 4",
-    "description": "Tier IX production x5",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-3"
-    ],
-    "exotic_deps": [
-      "x5"
-    ],
-    "dark_deps": [],
-    "power": 5
-  },
-  "9-5": {
-    "price": 25500000000000000,
-    "name": "IX boost 5",
-    "description": "Tier IX production x6",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "9-6": {
-    "price": 2550000000000000000,
-    "name": "IX boost 6",
-    "description": "Tier IX production x7",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "9-7": {
-    "price": 2.55e+21,
-    "name": "IX boost 7",
-    "description": "Tier IX production x8",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "9-8": {
-    "price": 2.55e+24,
-    "name": "IX boost 8",
-    "description": "Tier IX production x9",
-    "tiers": [
-      "9"
-    ],
-    "deps": [
-      "9-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
-  },
-  "10-1": {
-    "price": 750000000000,
-    "name": "X boost 1",
-    "description": "Tier X production x2",
-    "tiers": [
-      "10"
-    ],
+  "synergies-8": {
+    "prices": {
+      "1": 5,
+      "2": 100,
+      "3": 10000,
+      "4": 1000000,
+      "5": 100000000,
+      "6": 10000000000,
+      "7": 1000000000000,
+      "8": 100000000000000,
+      "9": 10000000000000000,
+      "10": 100000000000000000
+    },
+    "name": "<%= name %> synergy VIII",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier VIII generator",
+    "tier": "<%= id %>",
     "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 2
-  },
-  "10-2": {
-    "price": 3750000000000,
-    "name": "X boost 2",
-    "description": "Tier X production x3",
-    "tiers": [
-      "10"
-    ],
-    "deps": [
-      "10-1"
-    ],
     "exotic_deps": [
-      "x3"
+      "synergy-8",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 3
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['8']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "10-3": {
-    "price": 37500000000000,
-    "name": "X boost 3",
-    "description": "Tier X production x4",
-    "tiers": [
-      "10"
-    ],
-    "deps": [
-      "10-2"
-    ],
+  "synergies-9": {
+    "prices": {
+      "1": 5,
+      "2": 50,
+      "3": 5000,
+      "4": 500000,
+      "5": 50000000,
+      "6": 5000000000,
+      "7": 500000000000,
+      "8": 50000000000000,
+      "9": 5000000000000000,
+      "10": 50000000000000000
+    },
+    "name": "<%= name %> synergy IX",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier IX generator",
+    "tier": "<%= id %>",
+    "deps": [],
     "exotic_deps": [
-      "x4"
+      "synergy-9",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 4
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['9']/100);",
+      "})()"
+    ],
+    "tags": [
+      "production"
+    ]
   },
-  "10-4": {
-    "price": 3750000000000000,
-    "name": "X boost 4",
-    "description": "Tier X production x5",
-    "tiers": [
-      "10"
-    ],
-    "deps": [
-      "10-3"
-    ],
+  "synergies-10": {
+    "prices": {
+      "1": 5,
+      "2": 20,
+      "3": 2000,
+      "4": 200000,
+      "5": 20000000,
+      "6": 2000000000,
+      "7": 200000000000,
+      "8": 20000000000000,
+      "9": 2000000000000000,
+      "10": 20000000000000000
+    },
+    "name": "<%= name %> synergy X",
+    "description": "Increases Tier <%= name %> production by 1% for every Tier X generator",
+    "tier": "<%= id %>",
+    "deps": [],
     "exotic_deps": [
-      "x5"
+      "synergy-10",
+      "synergy-<%= id %>"
     ],
     "dark_deps": [],
-    "power": 5
-  },
-  "10-5": {
-    "price": 375000000000000000,
-    "name": "X boost 5",
-    "description": "Tier X production x6",
-    "tiers": [
-      "10"
+    "function": [
+      "(() => {",
+      "args.production*=(1+args.slot.generators['10']/100);",
+      "})()"
     ],
-    "deps": [
-      "10-4"
-    ],
-    "exotic_deps": [
-      "x6"
-    ],
-    "dark_deps": [],
-    "power": 6
-  },
-  "10-6": {
-    "price": 37500000000000000000,
-    "name": "X boost 6",
-    "description": "Tier X production x7",
-    "tiers": [
-      "10"
-    ],
-    "deps": [
-      "10-5"
-    ],
-    "exotic_deps": [
-      "x7"
-    ],
-    "dark_deps": [],
-    "power": 7
-  },
-  "10-7": {
-    "price": 3.75e+22,
-    "name": "X boost 7",
-    "description": "Tier X production x8",
-    "tiers": [
-      "10"
-    ],
-    "deps": [
-      "10-6"
-    ],
-    "exotic_deps": [
-      "x8"
-    ],
-    "dark_deps": [],
-    "power": 8
-  },
-  "10-8": {
-    "price": 3.75e+25,
-    "name": "X boost 8",
-    "description": "Tier X production x9",
-    "tiers": [
-      "10"
-    ],
-    "deps": [
-      "10-7"
-    ],
-    "exotic_deps": [
-      "x9"
-    ],
-    "dark_deps": [],
-    "power": 9
+    "tags": [
+      "production"
+    ]
   }
 }

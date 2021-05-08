@@ -9,20 +9,19 @@
 
 angular
   .module('game')
-  .service('reaction', ['state',
-    function(state) {
+  .service('reaction', ['state','util','data',
+    function(state, util, data) {
       // FIXME: move to util?
-        this.isReactionCostMet = function(number, reaction, playerData) {
-          let keys = Object.keys(reaction.reactant);
-          for (let i = 0; i < keys.length; i++) {
-            let available = playerData.resources[keys[i]].number;
-            let required = number * reaction.reactant[keys[i]];
+        function isReactionCostMet (number, reaction, playerData) {
+          for (let key in reaction.reactant) {
+            let available = playerData.resources[key];
+            let required = number * reaction.reactant[key];
             if (required > available) {
               return false;
             }
           }
           return true;
-        };
+        }
 
       /* Transforms reactants to products */
       this.react = function(number, reaction, playerData) {
@@ -30,24 +29,49 @@ angular
             !reaction.reactant || !reaction.product) {
           return;
         }
-        if (this.isReactionCostMet(number, reaction, playerData)) {
-          let reactant = Object.keys(reaction.reactant);
-          for (let i = 0; i < reactant.length; i++) {
-            let required = number * reaction.reactant[reactant[i]];
-            playerData.resources[reactant[i]].number -= required;
-            playerData.resources[reactant[i]].number = playerData.resources[reactant[i]].number;
-          }
-          let product = Object.keys(reaction.product);
-          for (let i = 0; i < product.length; i++) {
-            let produced = number * reaction.product[product[i]];
-            let current = playerData.resources[product[i]].number;
-            playerData.resources[product[i]].number = current + produced;
-            if (!playerData.resources[product[i]].unlocked) {
-              playerData.resources[product[i]].unlocked = true;
-              state.addNew(product[i]);
+        if (isReactionCostMet(number, reaction, playerData)) {
+          let elements = [];
+          for (let resource in reaction.reactant) {
+            let required = number * reaction.reactant[resource];
+            playerData.resources[resource] -= required;
+            playerData.resources[resource] = playerData.resources[resource];
+            // We track which elements produced the products, for the statistics
+            for(let elem of Object.keys(data.resources[resource].elements)){
+              if(elements.indexOf(elem) === -1){
+                elements.push(elem);
+              }
             }
+          }
+          for (let resource in reaction.product) {
+            let produced = number * reaction.product[resource];
+            util.addResource(playerData, elements, resource, produced, state);
           }
         }
       };
+
+      this.processReactions = function(reactions, player){
+        let declared = {};
+        for(let reaction of reactions){
+          let reactant = reaction.reaction.reactant;
+          for (let resource in reactant) {
+            declared[resource] = declared[resource]+reactant[resource]*reaction.number || reactant[resource]*reaction.number;
+          }
+        }
+        for(let reaction of reactions){
+          let reactant = reaction.reaction.reactant;
+          for (let resource in reactant) {
+            if(!declared[resource] || !reactant[resource]){
+              continue;
+            }
+            let available = Math.min(declared[resource], player.resources[resource]);
+            let ratio = reactant[resource]*reaction.number/declared[resource];
+            reaction.number = Math.min(reaction.number, Math.floor(available*ratio));
+          }
+        }
+
+        for(let reaction of reactions){
+          this.react(reaction.number, reaction.reaction, player);
+        }
+      }
     }
   ]);

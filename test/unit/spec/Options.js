@@ -83,6 +83,7 @@ describe('Options', function () {
 
     it('should reset player without confirmation', function () {
       spyOn(spec.state, 'init');
+      spec.data.start_player = spec.originalData.start_player;
 
       spec.options.reset(false);
 
@@ -93,6 +94,7 @@ describe('Options', function () {
     it('should reset player with confirmation', function () {
       spyOn(window, 'confirm').and.returnValue(true);
       spyOn(spec.state, 'init');
+      spec.data.start_player = spec.originalData.start_player;
 
       spec.options.reset(true);
 
@@ -113,7 +115,7 @@ describe('Options', function () {
     it('should export save', function () {
       spyOn(window, 'btoa').and.returnValue('');
 
-      spec.options.importExportSave();
+      spec.options.exportSave(spec.state.player);
 
       expect(window.btoa).toHaveBeenCalled();
     });
@@ -124,7 +126,7 @@ describe('Options', function () {
       spyOn(window, 'atob');
       spec.state.export = 'test';
 
-      spec.options.importExportSave();
+      spec.options.importSave(spec.state.player);
 
       expect(JSON.parse).toHaveBeenCalled();
       expect(spec.savegame.versionControl).toHaveBeenCalled();
@@ -135,7 +137,7 @@ describe('Options', function () {
       spyOn(window, 'atob').and.returnValue('{}');
       spec.state.export = '';
 
-      spec.options.importExportSave();
+      spec.options.importSave(spec.state.player);
 
       expect(window.atob).not.toHaveBeenCalled();
     });
@@ -144,31 +146,9 @@ describe('Options', function () {
       spyOn(window, 'atob');
       spec.state.export = 'test';
 
-      spec.options.importExportSave();
+      spec.options.importSave(spec.state.player);
 
       expect(window.atob).toHaveBeenCalled();
-    });
-
-    describe('onload', function() {
-      beforeEach(function() {
-  			spyOn(spec.state, 'init');
-      });
-
-      it('should load the game', function() {
-        // flush onload
-        spec.$timeout.flush();
-
-        expect(localStorage.getItem).toHaveBeenCalled();
-      });
-
-      it('should not init if the player exists', function() {
-        getItem.and.returnValue('{}');
-
-        // flush onload
-        spec.$timeout.flush();
-
-  			expect(spec.state.init).not.toHaveBeenCalled();
-      });
     });
   });
 });

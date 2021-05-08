@@ -8,35 +8,38 @@
 
 angular
   .module('game')
-  .service('visibility', ['state',
-    function(state) {
-      this.visible = function(items, func, currentElement) {
+  .service('visibility', [
+    function() {
+      this.visible = function(items, func, currentElement, sortFunc, player) {
         let visibles = [];
         for (let i in items) {
           // if it is an array, we need to extract the item from the index
           let item = Array.isArray(items) ? items[i] : i;
-          if (func(item, currentElement)) {
+          if (func(item, currentElement, player)) {
             visibles.push(item);
           }
+        }
+        if(sortFunc){
+          visibles.sort(sortFunc);
         }
         return visibles;
       };
 
-      this.isUpgradeVisible = function(name, currentElement, upgrade) {
+      this.isUpgradeVisible = function(name, slot, upgrade, player) {
         if (upgrade.tiers) {
           for (let tier of upgrade.tiers) {
-            if (state.player.elements[currentElement].generators[tier] === 0) {
+            if (slot.generators[tier] === 0) {
               return false;
             }
           }
         }
-        return meetDependencies(state.player.elements[currentElement].upgrades, upgrade.deps) &&
-          meetDependencies(state.player.elements[currentElement].exotic_upgrades, upgrade.exotic_deps) &&
-          meetDependencies(state.player.dark_upgrades, upgrade.dark_deps);
+        return meetDependencies(slot.upgrades, upgrade.deps) &&
+          meetDependencies(player.exotic_upgrades[slot.element], upgrade.exotic_deps) &&
+          meetDependencies(player.dark_upgrades, upgrade.dark_deps);
       };
 
       function meetDependencies(upgrades, dependencies) {
-        if (!dependencies) {
+        if(!dependencies){
           return true;
         }
         for (let dep of dependencies) {

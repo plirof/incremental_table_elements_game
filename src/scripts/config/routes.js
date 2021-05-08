@@ -5,29 +5,38 @@ angular
   .config(['$stateProvider',
     function($stateProvider) {
       $stateProvider
-        .state('matter', {
-          component: 'matter'
+        .state('generators', {
+          component: 'generators'
         })
         .state('redox', {
           component: 'redox'
         })
-        .state('reactor', {
-          component: 'reactor'
+        .state('reactions', {
+          component: 'reactions'
         })
-        .state('nova', {
-          component: 'nova'
+        .state('fusion', {
+          component: 'fusion'
         })
-        .state('supernova', {
-          component: 'supernova'
+        .state('upgrades', {
+          component: 'upgrades'
         })
-        .state('void', {
-          component: 'void'
+        .state('exotic', {
+          component: 'exotic'
         })
-        .state('core', {
-          component: 'core'
+        .state('dark', {
+          component: 'dark'
+        })
+        .state('elements', {
+          component: 'elements'
         })
         .state('achievements', {
           component: 'achievements'
+        })
+        .state('dashboard', {
+          component: 'dashboard'
+        })
+        .state('statistics', {
+          component: 'statistics'
         })
         .state('options', {
           component: 'options'
@@ -36,6 +45,6 @@ angular
   ]).run([
     '$state',
     function($state) {
-      $state.go('matter');
+      $state.go('generators');
     }
   ]);

@@ -12,38 +12,119 @@ angular.module('game').component('redox', {
   controllerAs: 'ct'
 });
 
-angular.module('game').controller('ct_redox', ['state', 'data', 'visibility', 'util', 'format', 'reaction',
-  function (state, data, visibility, util, format, reaction) {
+angular.module('game').controller('ct_redox', ['state', 'data', 'visibility', 'util', 'format', 'reaction', 'upgrade',
+  function (state, data, visibility, util, format, reaction, upgradeService) {
     let ct = this;
     ct.state = state;
     ct.data = data;
     ct.util = util;
     ct.format = format;
     ct.reaction = reaction;
+    ct.upgradeService = upgradeService;
+    ct.adjustAmount = [1, 10, 25, 100];
 
-    function update(player) {
-      for (let redox of player.redox) {
-        if (!redox.resource || !redox.active) {
+    ct.update = function(player) {
+      processRedox(player);
+      processElectronegativity(player);
+    };
+
+    function processRedox(player){
+      for(let slot of player.element_slots){
+        if(!slot){
           continue;
         }
+        for (let redox of slot.redoxes) {
+          if (!redox.resource || !redox.active || redox.from === redox.to) {
+            continue;
+          }
 
-        let reactant = ct.generateName(redox.element, redox.from);
-        let power = ct.redoxPower(player);
-        let number = Math.min(power, player.resources[reactant].number);
-        let react = ct.redoxReaction(redox);
+          let reactant = ct.generateName(redox.element, redox.from);
+          let power = util.calculateValue(data.global_upgrades.redox_bandwidth.power.base,
+                data.global_upgrades.redox_bandwidth.power,
+                player.global_upgrades_current.redox_bandwidth);
+          let number = Math.min(power, player.resources[reactant]);
+          let react = ct.redoxReaction(redox);
 
-        ct.reaction.react(number, react, player);
+          state.reactions.push({number: number, reaction: react});
+        }
       }
     }
 
-    /* Calculates the redox power based on the redox upgrades */
-    ct.redoxPower = function(player) {
-      let level = player.global_upgrades.redox_bandwidth;
-      let upgrade = data.global_upgrades.redox_bandwidth;
-      let basePower = upgrade.power;
-      let polynomial = upgrade.power_poly;
-      return basePower * Math.floor(Math.pow(level, polynomial));
-    };
+    function processElectronegativity(player){
+      for(let key in data.elements){
+        let element = data.elements[key];
+        if(element.electronegativity === 0){
+          continue;
+        }
+        let ions = element.anions.concat(element.cations);
+		    ions.push(element.main);
+        for(let resource of ions){
+          if(player.resources[resource] === 0){
+            continue;
+          }
+          let charge = data.resources[resource].charge || 0;
+          let probabilities = probabilityDistribution(key, charge);
+
+          for(let probKey in probabilities){
+            if(charge === parseInt(probKey, 10)){
+               continue;
+             }
+            let production = Math.floor(probabilities[probKey]*player.resources[resource]);
+            if(production === 0){
+              continue;
+            }
+            let react = ct.redoxReaction({
+              element: key,
+              from: charge,
+              to: parseInt(probKey, 10)
+            });
+            // electronegativity is 'for free'
+      			react.reactant.eV = 0;
+            // FIXME: starvation should fix this
+            if(react.reactant['e-']){
+              production = Math.min(production, player.resources['e-']);
+            }
+            state.reactions.push({number: production, reaction: react});
+          }
+        }
+      }
+    }
+
+    function probabilityDistribution(element, charge){
+    	let prob = {};
+    	let start = -data.elements[element].electron_affinity.length;
+    	let end = charge;
+    	// lower than index, affected by negativity
+    	rangeProbability(element, prob, start, end, 1, data.elements[element].negative_factor);
+
+    	prob[charge] = 1;
+
+    	start = charge+1;
+    	end = data.elements[element].ionization_energy.length+1;
+    	// lower than index, affected by positivity
+    	rangeProbability(element, prob, start, end, -1, data.elements[element].positive_factor);
+
+    	let sum = 0;
+    	for(let i in prob){
+    		sum += prob[i];
+    	}
+    	for(let i in prob){
+    		prob[i] /= sum;
+    	}
+    	return prob;
+    }
+
+    function rangeProbability(element, prob, start, end, offset, factor){
+    	for(let i = start; i < end; i++){
+    		let difference = data.redox[element][i]-data.redox[element][i+offset];
+    		if(difference <= 0){
+    			difference = -difference;
+    		}else{
+    			difference = 1/difference;
+    		}
+    		prob[i] = Math.pow(data.constants.ELECTRONEGATIVITY_CHANCE,Math.abs(i))*factor*difference;
+    	}
+    }
 
     /* Writes a redox in the form of a reaction so that we can use the reaction
     service to process it */
@@ -78,27 +159,10 @@ angular.module('game').controller('ct_redox', ['state', 'data', 'visibility', 'u
     /* Calculates how much energy it takes to go from a redox level to another
     for a given element */
     function redoxEnergy(from, to, element) {
-      let energyFrom = cumulativeEnergy(element, from);
-      let energyTo = cumulativeEnergy(element, to);
+      let energyFrom = data.redox[element][from];
+      let energyTo = data.redox[element][to];
       let energy = energyTo - energyFrom;
 
-      return energy;
-    }
-
-    /* Calculates the cummulative energy of a redox level.
-    The logic is the following: the redox array gives how much energy it costs
-    to go from a level to the next, e.g. from +2 to +3. This function calculates
-    how much it takes to go from level 0 to x by summing each successive level */
-    function cumulativeEnergy(element, level) {
-      let energy = 0;
-      let start = Math.min(0, level);
-      let end = Math.max(0, level);
-      for (let i = start; i <= end; i++) {
-        energy += data.redox[element][i];
-      }
-      if (level < 0) {
-        energy = -energy;
-      }
       return energy;
     }
 
@@ -113,10 +177,6 @@ angular.module('game').controller('ct_redox', ['state', 'data', 'visibility', 'u
       }
       postfix += getSign(i);
       let name = element + postfix;
-      // special case!! H+ is just a proton
-      if (name === 'H+') {
-        name = 'p';
-      }
       return name;
     };
 
@@ -124,45 +184,67 @@ angular.module('game').controller('ct_redox', ['state', 'data', 'visibility', 'u
       return number > 0 ? '+' : '-';
     }
 
-    /* Calculates the number of redox slots based on the redox upgrades */
-    ct.redoxSlots = function (player) {
-      let level = player.global_upgrades.redox_slots;
-      let upgrade = data.global_upgrades.redox_slots;
-      let basePower = upgrade.power;
-      let multiplier = upgrade.power_mult;
-      return basePower * Math.floor(multiplier * level);
-    };
-
     ct.redoxSize = function (player) {
-      return player.redox.length;
+      let size = 0;
+      for(let slot of player.element_slots){
+        if(!slot){
+          continue;
+        }
+        size += slot.redoxes.length;
+      }
+      return size;
     };
 
     /* Adds a new redox to the player list */
-    ct.addRedox = function (player) {
-      if(ct.redoxSize(player) >= ct.redoxSlots(player)){
+    ct.addRedox = function (player, slot) {
+      if(ct.redoxSize(player) >= util.calculateValue(data.global_upgrades.redox_slots.power.base,
+            data.global_upgrades.redox_slots.power,
+            player.global_upgrades.redox_slots)){
         return;
       }
-      player.redox.push({
-        resource: data.elements[ct.state.currentElement].main,
+      slot.redoxes.push({
+        resource: data.elements[slot.element].main,
         active: false,
-        element: ct.state.currentElement,
+        element: slot.element,
         from: 0,
         to: 1
       });
     };
 
-    ct.removeRedox = function (player, index) {
-      player.redox.splice(index, 1);
+    ct.removeRedox = function (slot, index) {
+      slot.redoxes.splice(index, 1);
     };
 
-    ct.visibleRedox = function(currentElement) {
-      return visibility.visible(state.player.redox, isRedoxVisible, currentElement);
-    };
-
-    function isRedoxVisible(entry, currentElement) {
-      return entry.element === currentElement;
+    ct.checkAllSlots = function(player){
+      for(let slot of player.element_slots){
+        if(slot){
+          slot.active = player.all_redox_active;
+          ct.checkAll(slot);
+        }
+      }
     }
 
-    state.registerUpdate('redox', update);
+    ct.checkAll = function(slot){
+      if(!slot) return;
+      for(let redox of slot.redoxes){
+        redox.active = slot.active;
+      }
+    }
+
+    ct.visibleRedox = function(slot) {
+      return slot.redoxes;
+    };
+
+    ct.adjustLevel = function(player, upgrade, amount){
+      player.global_upgrades_current[upgrade] += amount;
+      // We cap it between 1 and the current max level
+      player.global_upgrades_current[upgrade] = Math.max(1, Math.min(player.global_upgrades_current[upgrade], player.global_upgrades[upgrade]));
+    };
+
+    ct.visibleUpgrades = function() {
+      return visibility.visible(data.global_upgrades, upgradeService.filterByTag('redoxes'));
+    };
+
+    state.registerUpdate('redox', ct.update);
   }
 ]);

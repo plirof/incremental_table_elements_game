@@ -4,20 +4,15 @@
 
 const jsonfile = require('jsonfile');
 
-const args = process.argv.slice(2);
-
-let achievements = jsonfile.readFileSync(args[0]+'/data/achievements.json');
-let elements = jsonfile.readFileSync(args[0]+'/data/elements.json');
-let resources = jsonfile.readFileSync(args[0]+'/data/resources.json');
-let radioisotopes = jsonfile.readFileSync(args[0]+'/data/radioisotopes.json');
+let achievements = jsonfile.readFileSync('build/data/achievements.json');
+let elements = jsonfile.readFileSync('build/data/elements.json');
+let resources = jsonfile.readFileSync('build/data/resources.json');
+let radioisotopes = jsonfile.readFileSync('build/data/radioisotopes.json');
 
 for(let element in elements){
-  if(elements[element].disabled){
-    continue;
-  }
   let main = elements[element].main;
   let name = elements[element].name;
-  let goals = [1e6, 1e9, 1e12, 1e15];
+  let goals = [1e6, 1e9, 1e12, 1e15, 1e18, 1e21, 1e24];
   let key = 'progress_'+element;
 
   // Generate production achievements
@@ -25,7 +20,21 @@ for(let element in elements){
     name: name,
     description: 'Gather '+name,
     goals: goals,
-    progress: 'player.resources["'+main+'"].number'
+    progress: 'player.statistics.all_time["'+main+'"] || 0',
+    deps: [element]
+  };
+
+  key = 'exotic_progress_'+element;
+  let exotic = elements[element].exotic;
+  goals = [100, 1e5, 1e7, 1e9];
+
+  // Generate exotic production achievements
+  achievements[key] = {
+    name: 'Exotic '+name,
+    description: 'Gather exotic '+name,
+    goals: goals,
+    progress: 'player.statistics.all_time["'+exotic+'"] || 0',
+    deps: [element]
   };
 
   let isotopeNumber = Object.keys(elements[element].isotopes).length;
@@ -38,13 +47,14 @@ for(let element in elements){
     progress: ['(() => {',
       'let count = 0;',
       'for(let key in data.elements["'+element+'"].isotopes){',
-      '  if (player.resources[key].unlocked) {',
+      '  if (player.resources[key] !== null) {',
       '    count++;',
       '  }',
       '}',
       'return count;',
       '})()'
-    ]
+    ],
+    deps: [element]
   };
 
   let ionNumber = 0;
@@ -64,13 +74,14 @@ for(let element in elements){
         'let count = 0;',
         'for(let key of data.elements["'+element+'"].includes){',
         '  if (data.resources[key].type.indexOf("ion") !== -1 &&',
-        '      player.resources[key].unlocked) {',
+        '      player.resources[key] !== null) {',
         '    count++;',
         '  }',
         '}',
         'return count;',
         '})()'
-      ]
+      ],
+      deps: [element, 'ion']
     };
   }
 
@@ -92,13 +103,14 @@ for(let element in elements){
         'let count = 0;',
         'for(let key of data.elements["'+element+'"].includes){',
         '  if (data.resources[key].type.indexOf("molecule") !== -1 &&',
-        '      player.resources[key].unlocked) {',
+        '      player.resources[key] !== null) {',
         '    count++;',
         '  }',
         '}',
         'return count;',
         '})()'
-      ]
+      ],
+      deps: [element, 'molecule']
     };
   }
 }
@@ -106,7 +118,7 @@ for(let element in elements){
 // Total achievements
 let totalElements = 0;
 for(let element in elements){
-  if(!elements[element].disabled){
+  if(elements[element].abundance > 0){
     totalElements++;
   }
 }
@@ -117,14 +129,15 @@ achievements.total_elements = {
   goals: [totalElements],
   progress: ['(() => {',
     'let count = 0;',
-    'for(let key in state.player.elements){',
-    '  if (state.player.elements[key].unlocked) {',
+    'for(let key in player.elements){',
+    '  if (player.elements[key]) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: ['dark_gate']
 };
 
 // Total isotopes
@@ -141,15 +154,16 @@ achievements.total_isotopes = {
   goals: [totalIsotopes],
   progress: ['(() => {',
     'let count = 0;',
-    'for(let key in state.player.resources){',
+    'for(let key in player.resources){',
     '  if (data.resources[key].type.indexOf("isotope") !== -1 &&',
-    '      state.player.resources[key].unlocked) {',
+    '      player.resources[key] !== null) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: []
 };
 
 // Total ions
@@ -166,15 +180,16 @@ achievements.total_ions = {
   goals: [totalIons],
   progress: ['(() => {',
     'let count = 0;',
-    'for(let key in state.player.resources){',
+    'for(let key in player.resources){',
     '  if (data.resources[key].type.indexOf("ion") !== -1 &&',
-    '      state.player.resources[key].unlocked) {',
+    '      player.resources[key] !== null) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: ['ion']
 };
 
 // Total molecules
@@ -191,15 +206,16 @@ achievements.total_molecules = {
   goals: [totalMolecules],
   progress: ['(() => {',
     'let count = 0;',
-    'for(let key in state.player.resources){',
+    'for(let key in player.resources){',
     '  if (data.resources[key].type.indexOf("molecule") !== -1 &&',
-    '      player.resources[key].unlocked) {',
+    '      player.resources[key] !== null) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: ['molecule']
 };
 
 // Total misc
@@ -216,15 +232,16 @@ achievements.total_misc = {
   goals: [totalMisc],
   progress: ['(() => {',
     'let count = 0;',
-    'for(let key in state.player.resources){',
+    'for(let key in player.resources){',
     '  if (Object.keys(data.resources[key].elements).length === 0 &&',
-    '      player.resources[key].unlocked) {',
+    '      player.resources[key] !== null) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: ['misc']
 };
 
 // Total radioisotopes
@@ -237,21 +254,21 @@ achievements.total_radioisotopes = {
   progress: ['(() => {',
     'let count = 0;',
     'for(let key of '+JSON.stringify(radioisotopes)+'){',
-    '  if (player.resources[key].unlocked) {',
+    '  if (player.resources[key] !== null) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: ['radioactive']
 };
 
 // 'The most' achievements
 let mostUnstable = '';
-let lowestHalfLife = Infinity;
+let lowestHalfLife = Number.MAX_VALUE;
 for(let isotope of radioisotopes){
-  let element = Object.keys(resources[isotope].elements)[0];
-  let halfLife = elements[element].isotopes[isotope].decay.half_life;
+  let halfLife = resources[isotope].decay.half_life;
   if(halfLife < lowestHalfLife){
     lowestHalfLife = halfLife;
     mostUnstable = isotope;
@@ -263,12 +280,13 @@ achievements.most_unstable = {
   description: 'Unlock the shortest lived isotope',
   goals: [1],
   condition: ['(() => {',
-    'if (player.resources["'+mostUnstable+'"].unlocked) {',
+    'if (player.resources["'+mostUnstable+'"] !== null) {',
     '  return true;',
     '}',
     'return false;',
     '})()'
-  ]
+  ],
+  deps: []
 };
 
 let mostCharged = 0;
@@ -292,13 +310,14 @@ achievements.most_charged = {
   condition: ['(() => {',
     'let count = 0;',
     'for(let key of '+JSON.stringify(mostChargedIons)+'){',
-    '  if (player.resources[key].unlocked) {',
+    '  if (player.resources[key] !== null) {',
     '    return true;',
     '  }',
     '}',
     'return false;',
     '})()'
-  ]
+  ],
+  deps: ['ion']
 };
 
 let largestSize = 0;
@@ -330,13 +349,14 @@ achievements.most_large = {
   condition: ['(() => {',
     'let count = 0;',
     'for(let key of '+JSON.stringify(largestMolecules)+'){',
-    '  if (player.resources[key].unlocked) {',
+    '  if (player.resources[key] !== null) {',
     '    return true;',
     '  }',
     '}',
     'return false;',
     '})()'
-  ]
+  ],
+  deps: ['molecule']
 };
 
 // All
@@ -347,15 +367,16 @@ achievements.resources_all = {
   progress: ['(() => {',
     'let count = 0;',
     'for(let key in data.resources){',
-    '  if (player.resources[key].unlocked) {',
+    '  if (player.resources[key] !== null) {',
     '    count++;',
     '  }',
     '}',
     'return count;',
     '})()'
-  ]
+  ],
+  deps: ['isotope']
 };
 
-jsonfile.writeFileSync(args[0] + '/data/achievements.json', achievements, {
+jsonfile.writeFileSync('build/data/achievements.json', achievements, {
   spaces: 2
 });

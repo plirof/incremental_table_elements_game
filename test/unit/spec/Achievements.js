@@ -1,5 +1,5 @@
 /* eslint no-var: 0 */
-/* globals describe,commonSpec,it,expect */
+/* globals describe,commonSpec,it,expect,beforeEach,window */
 /* jshint varstmt: false */
 'use strict';
 
@@ -11,11 +11,9 @@ describe('Achievements component', function () {
   beforeEach(function () {
     window.ga = function () {};
     spec.state.player.resources['1H'] = {};
-    spec.state.player.resources['1H'].number = 0;
-    spec.state.player.resources['1H'].unlocked = true;
+    spec.state.player.resources['1H'] = 0;
     spec.state.player.resources['2H'] = {};
-    spec.state.player.resources['2H'].number = 0;
-    spec.state.player.resources['1H'].unlocked = false;
+    spec.state.player.resources['2H'] = 0;
     spec.state.player.achievements.hydrogen = 0;
     spec.state.player.achievements.isotope = 0;
 
@@ -24,18 +22,59 @@ describe('Achievements component', function () {
         1000000,
         1000000000
       ],
-      'progress': 'hydrogen'
+      'progress': 'hydrogen',
+      'deps': [
+        'H'
+      ]
     };
-    spec.achievements.hydrogen = function(p){return p.resources['1H'].number;};
+    spec.achievements.hydrogen = function(p){return p.resources['1H'];};
     spec.data.achievements.isotope = {
       'name': 'xxx',
       'description': 'xxx',
       'goals': [
         1
       ],
-      'progress': 'isotope'
+      'progress': 'isotope',
+      'deps': [
+        'isotope'
+      ]
     };
-    spec.achievements.isotope = function(p){return p.resources['2H'].unlocked ? 1 : 0;};
+    spec.achievements.isotope = function(p){return p.resources['2H'] !== null ? 1 : 0;};
+  });
+
+  describe('achievement functions', function () {
+    it('should execute all achievement functions', function () {
+      for(let key of Object.keys(spec.originalData)){
+        spec.data[key] = angular.copy(spec.originalData[key]);
+      }
+
+      spec.state.update(spec.data.start_player);
+    });
+
+    it('should execute all achievement functions 2', function () {
+      for(let key of Object.keys(spec.originalData)){
+        spec.data[key] = angular.copy(spec.originalData[key]);
+      }
+      for(let unlock in spec.data.unlocks){
+        spec.data.start_player.unlocks[unlock] = 1;
+      }
+      for(let resource in spec.data.resources){
+        spec.data.start_player.resources[resource] = 1e300;
+      }
+
+      spec.state.update(spec.data.start_player);
+    });
+
+    it('should execute all achievement functions 3', function () {
+      for(let key of Object.keys(spec.originalData)){
+        spec.data[key] = angular.copy(spec.originalData[key]);
+      }
+      for(let resource in spec.data.resources){
+        spec.data.start_player.resources[resource] = 1e300;
+      }
+
+      spec.state.update(spec.data.start_player);
+    });
   });
 
   describe('achievements', function () {
@@ -46,9 +85,7 @@ describe('Achievements component', function () {
     });
 
     it('should award achievements if conditions are met', function () {
-      spec.state.player.resources['1H'] = {
-        number: 1000000000
-      };
+      spec.state.player.resources['1H'] = 1000000000;
 
       spec.state.update(spec.state.player);
 
@@ -115,6 +152,12 @@ describe('Achievements component', function () {
       expect(level).toEqual(3);
     });
 
+    it('should count the total number of achievement levels', function () {
+      let level = spec.achievements.numberTotal();
+
+      expect(level).toEqual(3);
+    });
+
     it('should count the number of unlocked achivements 1', function () {
       let level = spec.achievements.numberUnlocked(spec.state.player);
 
@@ -134,6 +177,24 @@ describe('Achievements component', function () {
       let level = spec.achievements.numberUnlocked(spec.state.player);
 
       expect(level).toEqual(3);
+    });
+
+    it('should hide achievements that are not visible', function () {
+      spec.state.player.unlocks.H = 0;
+      spec.state.player.unlocks.isotope = 0;
+
+      let visible = spec.achievements.visibleAchievements(spec.state.player);
+
+      expect(visible).toEqual([]);
+    });
+
+    it('should show visible achievements', function () {
+      spec.state.player.unlocks.H = 1;
+      spec.state.player.unlocks.isotope = 0;
+
+      let visible = spec.achievements.visibleAchievements(spec.state.player);
+
+      expect(visible).toEqual(['hydrogen']);
     });
   });
 });

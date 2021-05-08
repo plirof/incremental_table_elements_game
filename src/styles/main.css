@@ -2,6 +2,19 @@
 
 
 /* https://github.com/angular/angular.js/issues/8224 */
+progress[value] {
+  width: 100%;
+}
+
+.offline-progress {
+  position: absolute;
+  width: 500px;
+  height: 50px;
+  top: 33%;
+  left: 50%;
+  margin-left: -250px; /* margin is -0.5 * dimension */
+  margin-top: -25px;
+}
 
 .loader.ng-animate {
   -moz-animation: none 0s;
@@ -179,26 +192,18 @@ body {
 }
 
 .element_unavailable {
-  background-color: #cfcfcf;
-}
-
-.element_unavailable_dark {
-  background-color: #858585;
-}
-
-.element_cost_not_met {
   background-color: #f07049;
 }
 
-.element_cost_not_met_dark {
+.element_unavailable_dark {
   background-color: #e72a00;
 }
 
-.element_cost_met {
+.element_available {
   background-color: #eada24;
 }
 
-.element_cost_met_dark {
+.element_available_dark {
   background-color: #9d6d00;
 }
 
@@ -262,6 +267,21 @@ body {
   margin-bottom: 0;
 }
 
+.element_number {
+  font-size: 135%;
+  margin-right: 30px;
+  margin-top: 5px;
+  position: absolute;
+  right: 0;
+}
+
+.element_label {
+  font-size: 110%;
+  margin-left: 5px;
+  margin-top: 5px;
+  position: absolute;
+}
+
 .symbol_name {
   color: white;
   font-weight: bold;
@@ -285,4 +305,33 @@ body {
   position: absolute;
   right: 0;
   left: 0;
+}
+
+#sidebar-wrapper .sidebar-nav {
+  margin-left: -15px;
+  padding-left: 15px;
+  width: 230px;
+}
+
+#sidebar-wrapper .sidebar-nav li {
+  margin-right: 0;
+  text-indent: 0;
+}
+
+#sidebar-wrapper .sidebar-nav .sidebar-brand {
+  text-align: center;
+  margin-left: -15px;
+}
+
+#sidebar-wrapper .sidebar-icons {
+  text-align: right;
+}
+
+.nav-tabs li {
+  cursor: pointer;
+  /* <3 ~B */
+}
+
+.serif {
+  font-family: "Times new roman", serif;
 }

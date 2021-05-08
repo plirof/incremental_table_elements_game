@@ -3,22 +3,16 @@
 'use strict';
 
 let jsonfile = require('jsonfile');
-let path = require('path');
 
-let args = process.argv.slice(2);
-
-let basePath = path.join(args[0], '/data');
-
-let resources = jsonfile.readFileSync(path.join(basePath, '/resources.json'));
-let elements = jsonfile.readFileSync(path.join(basePath, '/elements.json'));
-let generators = jsonfile.readFileSync(path.join(basePath, '/generators.json'));
-let upgrades = jsonfile.readFileSync(path.join(basePath, '/upgrades.json'));
-let globalUpgrades = jsonfile.readFileSync(path.join(basePath, '/global_upgrades.json'));
-let exoticUpgrades = jsonfile.readFileSync(path.join(basePath, '/exotic_upgrades.json'));
-let darkUpgrades = jsonfile.readFileSync(path.join(basePath, '/dark_upgrades.json'));
-let achievements = jsonfile.readFileSync(path.join(basePath, '/achievements.json'));
-let unlocks = jsonfile.readFileSync(path.join(basePath, '/unlocks.json'));
-let reactions = jsonfile.readFileSync(path.join(basePath, '/reactions.json'));
+let resources = jsonfile.readFileSync('build/data/resources.json');
+let elements = jsonfile.readFileSync('build/data/elements.json');
+let generators = jsonfile.readFileSync('build/data/generators.json');
+let globalUpgrades = jsonfile.readFileSync('build/data/global_upgrades.json');
+let exoticUpgrades = jsonfile.readFileSync('build/data/exotic_upgrades.json');
+let darkUpgrades = jsonfile.readFileSync('build/data/dark_upgrades.json');
+let achievements = jsonfile.readFileSync('build/data/achievements.json');
+let unlocks = jsonfile.readFileSync('build/data/unlocks.json');
+let element_slot = jsonfile.readFileSync('build/data/element_slot.json');
 
 let startPlayer = {
   elements_unlocked: 1
@@ -28,41 +22,53 @@ let startPlayer = {
 let npm = jsonfile.readFileSync('package.json');
 
 startPlayer.version = npm.version;
+
+/**
+     * Default numberformat to be used with swarm-numberformat.
+     *
+     * Formats are:
+     *    - standard
+     *    - scientific
+     *    - hybrid
+     *    - engineering
+     * Flavors are:
+     *    - full
+     *    - short
+     */
+startPlayer.options = {};
+startPlayer.options.numberformat = {format: 'scientific', flavor: 'short', maxSmall: '1', sigfigs: 4};
+startPlayer.options.buyIndex = 0;
+startPlayer.options.adjustIndex = 0;
+startPlayer.options.elementBuyIndex = 0;
+startPlayer.options.hideBought = false;
+startPlayer.options.sortIndex = 0;
+startPlayer.options.hideAchievements = false;
+startPlayer.options.autoBuyGenerators = false;
+startPlayer.all_reaction_active = false;
+startPlayer.all_redox_active = false;
+startPlayer.offline = 0;
 startPlayer.resources = {};
 for (let entry in resources) {
-  startPlayer.resources[entry] = {
-    number: 0,
-    unlocked: false
-  };
+  startPlayer.resources[entry] = null;
 }
 
 startPlayer.elements = {};
 for (let element in elements) {
-  if (!elements[element].disabled) {
-    startPlayer.elements[element] = {
-      unlocked: false
-    };
-  }
-}
-
-for (let element in startPlayer.elements) {
-  startPlayer.elements[element].upgrades = {};
-  for (let upgrade in upgrades) {
-    startPlayer.elements[element].upgrades[upgrade] = false;
-  }
-  startPlayer.elements[element].exotic_upgrades = {};
-  for (let upgrade in exoticUpgrades) {
-    startPlayer.elements[element].exotic_upgrades[upgrade] = false;
-  }
-  startPlayer.elements[element].generators = {};
-  for (let generator in generators) {
-    startPlayer.elements[element].generators[generator] = 0;
-  }
+  startPlayer.elements[element] = false;
 }
 
 startPlayer.global_upgrades = {};
+startPlayer.global_upgrades_current = {};
 for (let upgrade in globalUpgrades) {
-  startPlayer.global_upgrades[upgrade] = 0;
+  startPlayer.global_upgrades[upgrade] = 1;
+  if(globalUpgrades[upgrade].adjustable){
+    startPlayer.global_upgrades_current[upgrade] = 1;
+  }
+}
+
+startPlayer.exotic_upgrades = {H:{}};
+for (let upgrade in exoticUpgrades) {
+  startPlayer.exotic_upgrades.H[upgrade] = false;
 }
 
 startPlayer.dark_upgrades = {};
@@ -80,24 +86,35 @@ for (let entry in unlocks) {
   startPlayer.unlocks[entry] = 0;
 }
 
-startPlayer.reactions = {};
-for (let entry in reactions) {
-  startPlayer.reactions[entry] = {
-    number: 0,
-    active: 0
-  };
-}
+element_slot.element = 'H';
+startPlayer.element_slots = [element_slot];
 
-startPlayer.redox = [];
+startPlayer.fusion = [{
+  active: false,
+  running: false,
+  beam: {
+    name: '1H',
+    number: 0
+  },
+  target: {
+    name: '1H',
+    number: 0
+  },
+  eV: 0
+}];
 
-startPlayer.elements.H.unlocked = true;
+startPlayer.statistics = {};
+startPlayer.statistics.exotic_run = {H:{}};
+startPlayer.statistics.dark_run = {};
+startPlayer.statistics.all_time = {};
+
+startPlayer.elements.H = true;
 
 let mainHydrogen = elements.H.main;
-startPlayer.resources[mainHydrogen].unlocked = true;
-
 let first = Object.keys(generators)[0];
-startPlayer.resources[mainHydrogen].number = generators[first].price;
+startPlayer.resources[mainHydrogen] = generators[first].price;
+startPlayer.statistics.exotic_run.H['1H'] = 0;
 
-jsonfile.writeFileSync(args[0] + '/data/start_player.json', startPlayer, {
+jsonfile.writeFileSync('build/data/start_player.json', startPlayer, {
   spaces: 2
 });

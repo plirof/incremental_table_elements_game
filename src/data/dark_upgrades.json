@@ -1,20 +1,111 @@
 {
-  "table": {
-    "price": 100,
-    "name": "Periodic Table",
-    "description": "Unlocks the periodic table",
-    "deps": []
+  "extra_element_slot_1": {
+    "price": 25,
+    "name": "Extra element slot I",
+    "description": "Unlocks another slot to produce matter",
+    "deps": [],
+    "function": ["(() => {",
+      "args.player.element_slots.push(null);",
+      "})()"
+    ],
+    "tags": ["once"]
   },
-  "redox": {
+  "extra_element_slot_2": {
     "price": 100,
-    "name": "Redox",
-    "description": "Unlocks redox",
-    "deps": []
+    "name": "Extra element slot II",
+    "description": "Unlocks another slot to produce matter",
+    "deps": [],
+    "function": ["(() => {",
+      "args.player.element_slots.push(null);",
+      "})()"
+    ],
+    "tags": ["once"]
   },
-  "reactions": {
-    "price": 100,
-    "name": "Reactions",
-    "description": "Unlocks reactions",
-    "deps": []
+  "extra_element_slot_3": {
+    "price": 1000,
+    "name": "Extra element slot III",
+    "description": "Unlocks another slot to produce matter",
+    "deps": [],
+    "function": ["(() => {",
+      "args.player.element_slots.push(null);",
+      "})()"
+    ],
+    "tags": ["once"]
+  },
+  "automation_1": {
+    "price": 50,
+    "name": "Automation I",
+    "description": "Automatically buy upgrades",
+    "deps": [],
+    "function": ["(() => {",
+      "let upgrades = $controller('ct_upgrades');",
+      "for(let slot of args.player.element_slots){",
+      "  if(slot){",
+      "    let visibleUpgrades = [];",
+      "    for(let up in data.upgrades){",
+      "      if(visibility.isUpgradeVisible(up, slot, data.upgrades[up], args.player)) visibleUpgrades.push(up);",
+      "    }",
+      "    sv.buyAll(args.player, slot.upgrades, visibleUpgrades, data.upgrades, data.elements[slot.element].main);",
+      "  }",
+      "}",
+      "})()"
+    ],
+    "tags": ["cycle"]
+  },
+  "automation_2": {
+    "price": 500,
+    "name": "Automation II",
+    "description": "Automatically buy generators",
+    "deps": [],
+    "function": ["(() => {",
+      "if(!args.player.options.autoBuyGenerators) return;",
+      "let generators = $controller('ct_generators');",
+      "for(let slot of args.player.element_slots){",
+      "  if(!slot) continue;",
+      "  let tierToBuy = '1';",
+      "  let bestRatio = 0;",
+      "",
+      "  for (let gen in data.generators) {",
+      "    let level = slot.generators[gen];",
+      "    let price = data.generators[gen].price * Math.pow(data.generators[gen].price_exp, level);",
+      "    let power = generators.generatorProduction(args.player, gen, slot);",
+      "    if (power / price > bestRatio) {",
+      "      tierToBuy = gen;",
+      "      bestRatio = power / price;",
+      "    }",
+      "    // we want to stop at the first generator we haven't bought yet",
+      "    if (level === 0) {",
+      "      break;",
+      "    }",
+      "  }",
+      "",
+      "  if (tierToBuy) {",
+      "    generators.buyGenerators(args.player, tierToBuy, slot, generators.buyAmount[args.player.options.buyIndex]);",
+      "  }",
+      "}",
+      "})()"
+    ],
+    "tags": ["cycle"]
+  },
+  "automation_3": {
+    "price": 2500,
+    "name": "Automation III",
+    "description": "Automatically generate exotic matter",
+    "deps": [],
+    "function": ["(() => {",
+      "state.noload = true;",
+      "let exotic = $controller('ct_exotic');",
+      "state.noload = false;",
+      "exotic.update(args.player);",
+      "for(let slot of args.player.element_slots){",
+      "  if(!slot) continue;",
+      "  let production = exotic.productionSum(slot.element);",
+      "  for (let key in production) {",
+      "    util.addResource(args.player, 'dark', key, production[key], state);",
+      "  }",
+      "}",
+      "})()"
+    ],
+    "tags": ["cycle"]
   }
 }

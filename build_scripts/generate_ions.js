@@ -3,14 +3,9 @@
 'use strict';
 
 let jsonfile = require('jsonfile');
-let path = require('path');
 
-let args = process.argv.slice(2);
-
-let basePath = path.join(args[0], '/data');
-
-let resources = jsonfile.readFileSync(path.join(basePath, '/resources.json'));
-let elements = jsonfile.readFileSync(path.join(basePath, '/elements.json'));
+let resources = jsonfile.readFileSync('build/data/resources.json');
+let elements = jsonfile.readFileSync('build/data/elements.json');
 
 // Generates an ion resource
 function generateResource(element, charge){
@@ -33,6 +28,12 @@ function addResource(name, charge, element){
 
   if(elements[element].includes.indexOf(name) === -1){
     elements[element].includes.push(name);
+  }
+  if(charge < 0 && elements[element].anions.indexOf(name) === -1){
+    elements[element].anions.push(name);
+  }
+  if(charge > 0 && elements[element].cations.indexOf(name) === -1){
+    elements[element].cations.push(name);
   }
 }
 
@@ -64,12 +65,19 @@ function htmlPostfix(index) {
   return '<sup>' + postfix + getSign(index) + '</sup>';
 }
 
+let minElectronegativity = Number.MAX_VALUE;
+let maxElectronegativity = -Number.MAX_VALUE;
 let redox = {};
 for (let element in elements) {
   elements[element].includes = elements[element].includes || [];
-// FIXME: keep this only until all elements all included
-  if(elements[element].disabled){
-    continue;
+  elements[element].anions = elements[element].anions || [];
+  elements[element].cations = elements[element].cations || [];
+
+  if(elements[element].electronegativity > 0 && elements[element].electronegativity < minElectronegativity){
+    minElectronegativity = elements[element].electronegativity;
+  }
+  if(elements[element].electronegativity > maxElectronegativity){
+    maxElectronegativity = elements[element].electronegativity;
   }
 
   let energies = {};
@@ -83,30 +91,51 @@ for (let element in elements) {
   energies[0] = 0;
 
   charge = 1;
-  for (let energy of elements[element].ionization_energy) {
+  for (let energy of elements[element].ionization_energy || []) {
     generateResource(element, charge);
     energies[charge] = energy;
     charge++;
   }
 
+  let cummulative = {};
+  for(let charge in energies){
+    cummulative[charge] =  cumulativeEnergy(energies, charge);
+  }
   if(typeof redox[element] === 'undefined'){
-    redox[element] = energies;
+    redox[element] = cummulative;
   }
 }
 
-// we delete 1H+ because it doesn't exist, it is a single proton
-delete resources['H+'];
-let index = elements.H.includes.indexOf('H+');
-if (index > -1) {
-    elements.H.includes.splice(index, 1);
+/* Calculates the cummulative energy of a redox level.
+The logic is the following: the redox array gives how much energy it costs
+to go from a level to the next, e.g. from +2 to +3. This function calculates
+how much it takes to go from level 0 to x by summing each successive level */
+function cumulativeEnergy(redox, level) {
+  let energy = 0;
+  let start = Math.min(0, level);
+  let end = Math.max(0, level);
+  for (let i = start; i <= end; i++) {
+    energy += redox[i];
+  }
+  if (level < 0) {
+    energy = -energy;
+  }
+  return energy;
 }
 
-jsonfile.writeFileSync(path.join(basePath, '/resources.json'), resources, {
+for (let element in elements) {
+  let power = elements[element].electronegativity-minElectronegativity;
+  elements[element].negative_factor = Math.pow(10, power);
+  power = maxElectronegativity-elements[element].electronegativity;
+  elements[element].positive_factor = Math.pow(10, power);
+}
+
+jsonfile.writeFileSync('build/data/resources.json', resources, {
   spaces: 2
 });
-jsonfile.writeFileSync(path.join(basePath, '/elements.json'), elements, {
+jsonfile.writeFileSync('build/data/elements.json', elements, {
   spaces: 2
 });
-jsonfile.writeFileSync(path.join(basePath, '/redox.json'), redox, {
+jsonfile.writeFileSync('build/data/redox.json', redox, {
   spaces: 2
 });

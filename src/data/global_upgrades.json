@@ -1,4 +1,21 @@
 {
+  "offline_time": {
+    "price": {
+      "eV": 10000
+    },
+    "name": "Offline time",
+    "description": "Add 1 hour to offline gains",
+    "tiers": [],
+    "deps": [],
+    "exotic_deps": [],
+    "tags": ["global"],
+    "power": {
+      "base": 3600,
+      "linear": 1
+    },
+    "price_exp": 2,
+    "repeatable": true
+  },
   "redox_slots": {
     "price": {
       "eV": 10000
@@ -8,25 +25,97 @@
     "tiers": [],
     "deps": [],
     "exotic_deps": [],
-    "dark_deps": [],
-    "power": 1,
-    "power_mult": 1,
+    "tags": [
+      "redoxes"
+    ],
+    "power": {
+      "base": 1,
+      "linear": 1
+    },
     "price_exp": 2,
     "repeatable": true
   },
   "redox_bandwidth": {
     "price": {
-      "eV": 100
+      "eV": 1e8
     },
     "name": "Redox bandwidth",
-    "description": "bandwidth available for redoxes",
-    "tiers": [],
-    "deps": [],
-    "exotic_deps": [],
-    "dark_deps": [],
-    "power": 100,
-    "power_poly": 2,
+    "description": "Bandwidth available for redoxes",
+    "tags": [
+      "redoxes"
+    ],
+    "power": {
+      "base": 100,
+      "exp": 2
+    },
+    "price_exp": 2,
+    "repeatable": true,
+    "adjustable": true
+  },
+  "reaction_slots": {
+    "price": {
+      "eV": 10000
+    },
+    "name": "Reaction slots",
+    "description": "Number of slots available for reactions",
+    "tags": [
+      "reactions"
+    ],
+    "power": {
+      "base": 1,
+      "linear": 1
+    },
+    "price_exp": 2,
+    "repeatable": true
+  },
+  "reaction_bandwidth": {
+    "price": {
+      "eV": 100
+    },
+    "name": "Reaction bandwidth",
+    "description": "Bandwidth available for reactions",
+    "tags": [
+      "reactions"
+    ],
+    "power": {
+      "base": 100,
+      "poly": 2
+    },
     "price_exp": 1.15,
+    "repeatable": true,
+    "adjustable": true
+  },
+  "fusion_area": {
+    "price": {
+      "eV": 1e25
+    },
+    "name": "Fusion area",
+    "description": "Area of the fusion reactor",
+    "tags": [
+      "fusion"
+    ],
+    "power": {
+      "base": 1,
+      "exp": 2
+    },
+    "price_exp": 10,
+    "repeatable": true,
+    "adjustable": true
+  },
+  "fusion_bandwidth": {
+    "price": {
+      "eV": 100
+    },
+    "name": "Fusion bandwidth",
+    "description": "Bandwidth available for fusion",
+    "tags": [
+      "fusion"
+    ],
+    "power": {
+      "base": 100,
+      "exp": 2
+    },
+    "price_exp": 2,
     "repeatable": true
   }
 }

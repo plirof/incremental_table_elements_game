@@ -1,51 +1,155 @@
 {
-  "x3": {
-    "price": 100,
+  "x-3": {
+    "price": 250,
     "name": "Extra prod 1",
-    "description": "Unlocks x3 boosts",
+    "description": "Unlocks x3 multipliers",
     "exotic_deps": [],
     "dark_deps": []
   },
-  "x4": {
-    "price": 200,
-    "name": "Extra prod 2",
-    "description": "Unlocks x4 boosts",
-    "exotic_deps": ["x3"],
+  "x": {
+    "prices": {
+      "4": 5000,
+      "5": 50000,
+      "6": 5e6,
+      "7": 1e9,
+      "8": 1e13,
+      "9": 5e16
+    },
+    "name": "Extra prod <% print(parseInt(id)-2) %>",
+    "description": "Unlocks x<% print(parseInt(id)) %> multipliers",
+    "exotic_deps": [
+      "x-<% print(parseInt(id)-1) %>"
+    ],
     "dark_deps": []
   },
-  "x5": {
-    "price": 400,
-    "name": "Extra prod 3",
-    "description": "Unlocks x5 boosts",
-    "exotic_deps": ["x4"],
+  "boosts-1": {
+    "price": 100,
+    "name": "Boost 1",
+    "description": "Unlocks boosts for every 10 generators",
+    "exotic_deps": [],
     "dark_deps": []
   },
-  "x6": {
-    "price": 800,
-    "name": "Extra prod 4",
-    "description": "Unlocks x6 boosts",
-    "exotic_deps": ["x5"],
+  "boosts": {
+    "prices": {
+      "2": 1000,
+      "3": 1e5,
+      "4": 1e7
+    },
+    "name": "Boost <%= id %>",
+    "description": "Unlocks boosts for every <% print([25,50,100][parseInt(id)-2]) %> generators",
+    "exotic_deps": [
+      "boosts-<% print(parseInt(id)-1) %>"
+    ],
     "dark_deps": []
   },
-  "x7": {
-    "price": 1600,
-    "name": "Extra prod 5",
-    "description": "Unlocks x7 boosts",
-    "exotic_deps": ["x6"],
+  "synergy": {
+    "prices": {
+      "1": 1e3,
+      "2": 5e5,
+      "3": 1e8,
+      "4": 5e11,
+      "5": 1e14,
+      "6": 5e17,
+      "7": 1e20,
+      "8": 5e22,
+      "9": 1e24,
+      "10": 5e29
+    },
+    "name": "Synergy <%= id %>",
+    "description": "Unlocks synergy ugrades for Tier <% print(['I','II','III','IV','V','VI','VII','VIII','IX','X'][parseInt(id)-1]) %>",
+    "exotic_deps": [],
     "dark_deps": []
   },
-  "x8": {
-    "price": 3200,
-    "name": "Extra prod 6",
-    "description": "Unlocks x8 boosts",
-    "exotic_deps": ["x7"],
-    "dark_deps": []
+  "isotopes-2": {
+    "price": 500,
+    "name": "Isotopes x2",
+    "description": "Isotopes produce x2 exotic matter",
+    "exotic_deps": [],
+    "dark_deps": [],
+    "function": ["(() => {",
+      "if(data.resources[args.resource].type.indexOf('isotope') !== -1){",
+      "  args.production*=2;",
+      "}",
+      "})()"
+    ],
+    "tags": ["production", "exotic", "isotope"]
   },
-  "x9": {
-    "price": 6400,
-    "name": "Extra prod 7",
-    "description": "Unlocks x9 boosts",
-    "exotic_deps": ["x8"],
-    "dark_deps": []
+  "readioactive-2": {
+    "price": 5000,
+    "name": "Radioactive bonus",
+    "description": "Radioactive isotopes produce +10% exotic matter per order of magnitude of its half life",
+    "exotic_deps": [],
+    "dark_deps": [],
+    "function": ["(() => {",
+      "if(data.resources[args.resource].type.indexOf('isotope') !== -1 &&",
+      "   data.resources[args.resource].decay){",
+      "  let halfLife = data.resources[args.resource].decay.half_life",
+      "  let magnitude = Math.max(0, Math.floor(Math.log10(halfLife)))",
+      "  args.production *= 1 + magnitude*0.1;",
+      "}",
+      "})()"
+    ],
+    "tags": ["production", "exotic", "isotope"]
+  },
+  "ions-2": {
+    "price": 5000,
+    "name": "Ions x2",
+    "description": "Ions produce x2 exotic matter",
+    "exotic_deps": [],
+    "dark_deps": [],
+    "function": ["(() => {",
+      "if(data.resources[args.resource].type.indexOf('ion') !== -1){",
+      "  args.production*=2;",
+      "}",
+      "})()"
+    ],
+    "tags": ["production", "exotic", "ion"]
+  },
+  "ions-charge": {
+    "price": 5000,
+    "name": "Ions charge bonus",
+    "description": "Ions produce +10% exotic matter per charge",
+    "exotic_deps": [],
+    "dark_deps": [],
+    "function": ["(() => {",
+      "if(data.resources[args.resource].type.indexOf('ion') !== -1){",
+      "  let charge = Math.abs(data.resources[args.resource].charge)",
+      "  args.production *= 1 + charge*0.1;",
+      "}",
+      "})()"
+    ],
+    "tags": ["production", "exotic", "ion"]
+  },
+  "molecules-2": {
+    "price": 5000,
+    "name": "Molecules x2",
+    "description": "Molecules produce x2 exotic matter",
+    "exotic_deps": [],
+    "dark_deps": [],
+    "function": ["(() => {",
+      "if(data.resources[args.resource].type.indexOf('molecule') !== -1){",
+      "  args.production*=2;",
+      "}",
+      "})()"
+    ],
+    "tags": ["production", "exotic", "molecule"]
+  },
+  "molecules-size": {
+    "price": 5000,
+    "name": "Molecules size bonus",
+    "description": "Molecules produce +5% exotic matter per atom",
+    "exotic_deps": [],
+    "dark_deps": [],
+    "function": ["(() => {",
+      "if(data.resources[args.resource].type.indexOf('molecule') !== -1){",
+      "  let size = 0;",
+      "  for(let elem in data.resources[args.resource].elements){",
+      "    size += data.resources[args.resource].elements[elem];",
+      "  }",
+      "  args.production *= 1 + size*0.05;",
+      "}",
+      "})()"
+    ],
+    "tags": ["production", "exotic", "molecule"]
   }
 }
